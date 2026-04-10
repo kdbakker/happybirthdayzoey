@@ -1,2 +1,80 @@
 /* styles.css — Happy Birthday Card */
-/* Stage 2 will add 3D text styling and layout */
+
+/* ─── Reset ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Layout ─────────────────────────────────────────────── */
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Deep purple base with a soft spotlight glow behind the text */
+  background-color: #0e0028;
+  background-image: radial-gradient(ellipse 80% 60% at 50% 50%, #2a0060 0%, #0e0028 100%);
+  font-family: 'Arial Black', 'Impact', 'Haettenschweiler', sans-serif;
+  overflow: hidden;
+}
+
+.card {
+  width: 100%;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05em;
+}
+
+.line {
+  display: block;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  user-select: none;
+  cursor: default;
+}
+
+/* ─── "Happy Birthday" line ──────────────────────────────── */
+/*
+ * 3D effect via stacked text-shadow: each step shifts 1px right/down
+ * in a progressively darker gold, then a final blurred ambient shadow.
+ */
+.line--happy-birthday {
+  font-size: clamp(1.8rem, 9vw, 5.5rem);
+  color: #ffe033;
+  text-shadow:
+    1px 1px 0 #c9a800,
+    2px 2px 0 #c4a200,
+    3px 3px 0 #b89600,
+    4px 4px 0 #ad8a00,
+    5px 5px 0 #a07c00,
+    6px 6px 0 #8f6c00,
+    7px 7px 16px rgba(0, 0, 0, 0.55);
+}
+
+/* ─── Name line ──────────────────────────────────────────── */
+/*
+ * Larger than "Happy Birthday" so the personalised name is the visual
+ * centrepiece. Same layered shadow technique in hot-pink / deep magenta.
+ */
+.line--name {
+  font-size: clamp(3.5rem, 18vw, 11rem);
+  color: #ff6ec7;
+  text-shadow:
+    1px 1px 0 #cc0090,
+    2px 2px 0 #c4008a,
+    3px 3px 0 #b80080,
+    4px 4px 0 #aa0074,
+    5px 5px 0 #9a0066,
+    6px 6px 0 #880058,
+    7px 7px 0 #760049,
+    8px 8px 20px rgba(0, 0, 0, 0.55);
+}
