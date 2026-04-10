@@ -1,30 +1,33 @@
-# [Project Name] — Claude Code Instructions
+# Happy Birthday Card — Claude Code Instructions
 
 ## Read First
 
 Before making **any** change to this codebase:
 
 1. Read `ROADMAP.md` in full. Confirm your change does not conflict with or make harder any planned work. If it does, flag the conflict and ask before proceeding.
-2. Check the design system page at `/[ds-location]/` (if one exists) for established patterns, components, and design tokens.
+2. Check the design system page at `/ds/index.html` (if one exists) for established patterns, components, and design tokens.
 
 ---
 
 ## What This App Is
 
-<!-- One-paragraph description of the project purpose, who uses it, and how it's deployed. Fill this in when bootstrapping the project. -->
+A static, single-page birthday card that displays "Happy Birthday [NAME]" in large 3D text. The recipient's name is read from a URL query parameter (`?name=Zoey`), so the same page can be personalised for anyone just by sharing a link. Clicking the text triggers a spin animation. The page is deployed as a static site on Netlify with no build step.
 
 ---
 
 ## File Structure
-
-<!-- Document the file structure here once established. Keep this up to date as files are added or moved. -->
 
 ```
 /
 ├── CLAUDE.md               # This file — Claude Code instructions
 ├── ROADMAP.md              # Feature roadmap and task backlog (source of truth)
 ├── README.md               # Project overview, setup, and usage
-└── ...
+├── netlify.toml            # Netlify deploy config and security headers
+├── index.html              # Single HTML entry point
+├── css/
+│   └── styles.css          # All styles (3D transforms, layout, animation)
+└── js/
+    └── main.js             # URL param parsing and click/spin logic
 ```
 
 ---
@@ -70,19 +73,25 @@ Before making **any** change to this codebase:
 
 ## Data Formats
 
-<!-- Document any data schemas (JSON structures, database models, etc.) here so Claude can reference them when editing data files. -->
+**URL parameter:** `?name=<value>`
+
+- The `name` query parameter is read at page load by `js/main.js`.
+- The value is inserted as text content into the name element — it is never used as HTML (`textContent` only, not `innerHTML`) to avoid XSS.
+- If the parameter is absent or empty, a default fallback name is shown (e.g. "Friend").
+- Values are decoded via `URLSearchParams` (handles percent-encoding automatically).
 
 ---
 
 ## Deployment
 
-<!-- Document how the app is deployed: platform, build steps, environment variables, and any post-deploy steps. -->
+- **Platform:** Netlify (static hosting, no build step)
+- **Publish directory:** `.` (repo root)
+- **Build command:** none
+- **Deploy:** push to `main` branch triggers an automatic Netlify deploy
+- **Config file:** `netlify.toml` — sets the publish directory, blocks internal `.md` files, and applies security response headers
 
 ---
 
 ## Design System
-
-<!-- Record the design system page location here once established. Example: -->
-<!-- Design system: `/ds/index.html` -->
 
 ⚠️ **No design system page has been set up yet.** When UI work begins, ask about creating one.
