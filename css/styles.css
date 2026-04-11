@@ -75,27 +75,34 @@ body {
 
 /* ─── Balloon inflate animation ─────────────────────────── */
 /*
- * Five push-and-stutter cycles, each reaching a new peak.
- * Encoded in keyframes so the stutter is frame-accurate
- * regardless of easing. Ends at max size right before the pop.
+ * Two phases:
+ *   0–40%  smooth growth (ease-in via keyframe spacing — slow start,
+ *          accelerating) so the balloon feels naturally inflating.
+ *   40–100% stutter: each cycle pushes to a new peak then pulls back,
+ *          simulating the balloon hitting elastic resistance.
+ * ease-in on the overall animation reinforces the slow-then-fast feel.
  */
 @keyframes balloon-inflate {
+  /* Smooth phase */
   0%   { transform: scale(1.00); }
-  10%  { transform: scale(1.07); }
-  18%  { transform: scale(1.04); }
-  30%  { transform: scale(1.12); }
-  38%  { transform: scale(1.09); }
-  50%  { transform: scale(1.17); }
-  58%  { transform: scale(1.13); }
-  70%  { transform: scale(1.22); }
-  78%  { transform: scale(1.18); }
-  88%  { transform: scale(1.26); }
-  94%  { transform: scale(1.23); }
-  100% { transform: scale(1.27); }
+  8%   { transform: scale(1.02); }
+  18%  { transform: scale(1.05); }
+  30%  { transform: scale(1.09); }
+  40%  { transform: scale(1.13); }
+  /* Stutter phase — hits resistance */
+  50%  { transform: scale(1.19); }
+  56%  { transform: scale(1.15); }
+  63%  { transform: scale(1.23); }
+  69%  { transform: scale(1.19); }
+  76%  { transform: scale(1.27); }
+  82%  { transform: scale(1.23); }
+  89%  { transform: scale(1.30); }
+  94%  { transform: scale(1.27); }
+  100% { transform: scale(1.30); }
 }
 
 .line--name.is-inflating {
-  animation: balloon-inflate 0.8s linear forwards;
+  animation: balloon-inflate 0.9s ease-in forwards;
   transform-origin: center center;
 }
 

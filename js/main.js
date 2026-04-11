@@ -28,7 +28,7 @@
   var COLORS           = ['#B1B3F2', '#FD6BB5', '#00B0CB', '#ff6eb4', '#ffe033', '#ffffff', '#8720C5'];
   var COUNT            = 200;
   var GRAVITY          = 620;         // px/s²
-  var INFLATE_DURATION = 800;         // ms — must match CSS animation duration
+  var INFLATE_DURATION = 900;         // ms — must match CSS animation duration
   var isBusy           = false;
 
   function burst() {
@@ -70,7 +70,7 @@
     el.className = 'confetti-particle';
 
     var isStrip = Math.random() > 0.55;
-    var w = Math.random() * 9 + 5;
+    var w = Math.random() * 14 + 9;
     el.style.width      = w + 'px';
     el.style.height     = (isStrip ? w * 0.3 : w) + 'px';
     el.style.background = COLORS[Math.floor(Math.random() * COLORS.length)];
