@@ -1,0 +1,70 @@
+/* styles.css — Happy Birthday Card */
+
+/* ─── Reset ──────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── SVG filter container (hidden) ─────────────────────── */
+.filter-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ─── Layout ─────────────────────────────────────────────── */
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #ff6eb4 0%, #5500cc 100%);
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', sans-serif;
+  overflow: hidden;
+}
+
+.card {
+  width: 100%;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Extra gap so the filter-extended bounds don't overlap between lines */
+  gap: 0.35em;
+}
+
+/* ─── All text lines ─────────────────────────────────────── */
+/*
+ * The balloon-3d SVG filter handles all depth and gloss.
+ * Text colour here feeds into SourceGraphic — extrusion layers
+ * are derived as progressively darker shades of the same hue.
+ */
+.line {
+  display: block;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  user-select: none;
+  cursor: default;
+  filter: url(#balloon-3d);
+}
+
+/* ─── "Happy" and "Birthday" lines ──────────────────────── */
+.line--happy,
+.line--birthday {
+  font-size: clamp(2rem, 10vw, 6rem);
+  color: #ffe033;
+}
+
+/* ─── Name line ──────────────────────────────────────────── */
+.line--name {
+  font-size: clamp(3rem, 16vw, 10rem);
+  color: #ff6ec7;
+}
