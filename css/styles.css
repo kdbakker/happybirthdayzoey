@@ -21,16 +21,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /*
-   * Two background layers:
-   *   1. SVG doodle tile (wavy lines, spirals, hearts, loops) — white, 10% opacity
-   *   2. Pink-to-purple gradient
-   * The SVG uses opacity='0.1' on the group so all strokes render at 10%.
-   * URL-encoded inline so no extra file is needed.
-   */
-  background:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cg fill='none' stroke='white' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' opacity='0.1'%3E%3Cpath d='M-20,35 C25,5 65,65 110,35 S195,5 240,35 S325,65 370,35 S430,5 450,35'/%3E%3Cpath d='M-10,175 C30,148 70,202 110,175 S185,148 225,175 S300,202 340,175 S400,148 430,175'/%3E%3Cpath d='M142,118 C136,80 112,54 75,62 C38,70 38,100 50,125 C62,150 95,146 100,118 C105,90 70,88 55,115'/%3E%3Cpath d='M264,53 C260,38 238,35 238,55 C238,75 260,94 264,96 C268,94 290,75 290,55 C290,35 268,38 264,53Z'/%3E%3Cpath d='M244,190 C248,158 216,138 186,148 C164,155 154,184 162,206 C170,228 202,226 208,202 C215,178 186,172 170,195'/%3E%3Cpath d='M204,28 C208,8 188,5 175,22 C167,16 178,3 192,4'/%3E%3Cpath d='M332,222 C358,238 390,224 396,190 C402,152 372,118 335,130'/%3E%3Cpath d='M70,262 C68,254 58,252 58,262 C58,272 68,282 70,282 C72,282 82,272 82,262 C82,252 72,254 70,262Z'/%3E%3Cpath d='M328,172 C315,168 303,180 305,196 C308,214 335,215 340,192 C345,170 324,165 310,185'/%3E%3Cpath d='M240,258 C268,238 285,268 310,248 S350,228 365,258'/%3E%3Cpath d='M34,198 C22,194 10,205 12,222 C14,242 42,245 47,222 C52,200 30,195 18,215'/%3E%3C/g%3E%3C/svg%3E") repeat,
-    linear-gradient(135deg, #ff6eb4 0%, #5500cc 100%);
+  background: linear-gradient(135deg, #ff6eb4 0%, #5500cc 100%);
   font-family: 'Fredoka One', 'Arial Rounded MT Bold', sans-serif;
   overflow: hidden;
 }
@@ -80,6 +71,30 @@ body {
 .line--name {
   font-size: clamp(3rem, 16vw, 10rem);
   color: #00B0CB;
+}
+
+/* ─── Name slot (name + cake message share the same space) ── */
+.name-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── "Let's eat cake!" message ─────────────────────────── */
+.cake-message {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+  font-size: 2.5rem;
+  color: white;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* ─── Balloon inflate animation ─────────────────────────── */

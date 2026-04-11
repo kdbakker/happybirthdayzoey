@@ -18,17 +18,24 @@
   applyName();
 
 
-  // ── Balloon pop + confetti on click ───────────────────────
+  // ── Balloon pop + confetti + cake message on click ─────────
+  //
   // Click sequence:
-  //   1. Name inflates with stutter (CSS keyframe, 800ms)
-  //   2. Pop: name vanishes instantly
-  //   3. Confetti bursts from the name's position
-  //   4. Name fades back in after 1.5s
+  //   1. Name inflates with smooth-then-stutter animation (900ms)
+  //   2. Pop: name vanishes instantly, confetti bursts out
+  //   3. "Let's eat cake!" fades in (300ms)
+  //   4. Held for 3 000ms
+  //   5. Cake message fades out + name fades back in (500ms, simultaneous)
+  //   6. Unlock — ready for next click
 
   var COLORS           = ['#B1B3F2', '#FD6BB5', '#00B0CB', '#ff6eb4', '#ffe033', '#ffffff', '#8720C5'];
   var COUNT            = 200;
-  var GRAVITY          = 620;         // px/s²
-  var INFLATE_DURATION = 900;         // ms — must match CSS animation duration
+  var GRAVITY          = 620;   // px/s²
+  var INFLATE_MS       = 900;   // must match CSS animation duration
+  var CAKE_FADEIN_MS   = 300;
+  var CAKE_HOLD_MS     = 3000;
+  var CAKE_FADEOUT_MS  = 500;
+  var NAME_FADEIN_MS   = 500;
   var isBusy           = false;
 
   function burst() {
@@ -36,34 +43,50 @@
     isBusy = true;
 
     var nameEl = document.getElementById('name');
+    var cakeEl = document.getElementById('cake-message');
 
-    // Clear any lingering transition, then start inflate
+    // Clear any lingering transition, then inflate
     nameEl.style.transition = 'none';
     nameEl.style.opacity    = '1';
     nameEl.classList.add('is-inflating');
 
+    // ── After inflate: pop ──
     setTimeout(function () {
-      // ── Pop ──
       nameEl.classList.remove('is-inflating');
       nameEl.style.transition = 'none';
       nameEl.style.transform  = 'none';
       nameEl.style.opacity    = '0';
 
-      // Fire confetti from the name's centre
+      // Fire confetti from name centre
       var rect = nameEl.getBoundingClientRect();
       var ox = rect.left + rect.width  / 2;
       var oy = rect.top  + rect.height / 2;
       for (var i = 0; i < COUNT; i++) spawnParticle(ox, oy);
 
-      // Reappear and unlock
-      setTimeout(function () {
-        nameEl.style.transition = 'opacity 0.5s ease-in';
-        nameEl.style.opacity    = '1';
-        isBusy = false;
-      }, 1500);
+      // ── Fade in cake message ──
+      cakeEl.style.transition = 'opacity ' + CAKE_FADEIN_MS + 'ms ease-in';
+      cakeEl.style.opacity    = '1';
 
-    }, INFLATE_DURATION);
+      // ── After hold: fade out cake, fade in name simultaneously ──
+      setTimeout(function () {
+        cakeEl.style.transition = 'opacity ' + CAKE_FADEOUT_MS + 'ms ease-out';
+        cakeEl.style.opacity    = '0';
+
+        nameEl.style.transition = 'opacity ' + NAME_FADEIN_MS + 'ms ease-in';
+        nameEl.style.opacity    = '1';
+
+        // Unlock once name is fully back
+        setTimeout(function () {
+          isBusy = false;
+        }, NAME_FADEIN_MS);
+
+      }, CAKE_FADEIN_MS + CAKE_HOLD_MS);
+
+    }, INFLATE_MS);
   }
+
+
+  // ── Confetti particle ──────────────────────────────────────
 
   function spawnParticle(ox, oy) {
     var el = document.createElement('div');
