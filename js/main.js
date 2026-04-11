@@ -18,35 +18,51 @@
   applyName();
 
 
-  // ── Confetti burst on click ────────────────────────────────
-  // The name element fades out on click (as if it exploded into
-  // the confetti), then fades back in once the particles settle.
+  // ── Balloon pop + confetti on click ───────────────────────
+  // Click sequence:
+  //   1. Name inflates with stutter (CSS keyframe, 800ms)
+  //   2. Pop: name vanishes instantly
+  //   3. Confetti bursts from the name's position
+  //   4. Name fades back in after 1.5s
 
-  var COLORS      = ['#8720C5', '#5700CB', '#00B0CB', '#ff6eb4', '#ffe033', '#ffffff', '#ff6ec7'];
-  var COUNT       = 200;
-  var GRAVITY     = 620;  // px/s²
-  var COOLDOWN_MS = 350;
-  var lastBurst   = 0;
+  var COLORS           = ['#B1B3F2', '#FD6BB5', '#00B0CB', '#ff6eb4', '#ffe033', '#ffffff', '#8720C5'];
+  var COUNT            = 200;
+  var GRAVITY          = 620;         // px/s²
+  var INFLATE_DURATION = 800;         // ms — must match CSS animation duration
+  var isBusy           = false;
 
   function burst() {
-    var now = Date.now();
-    if (now - lastBurst < COOLDOWN_MS) return;
-    lastBurst = now;
+    if (isBusy) return;
+    isBusy = true;
 
     var nameEl = document.getElementById('name');
-    var rect = nameEl.getBoundingClientRect();
-    var ox = rect.left + rect.width  / 2;
-    var oy = rect.top  + rect.height / 2;
 
-    // Name explodes out — fade quickly, reappear after confetti settles
-    nameEl.style.transition = 'opacity 0.12s ease-out';
-    nameEl.style.opacity    = '0';
+    // Clear any lingering transition, then start inflate
+    nameEl.style.transition = 'none';
+    nameEl.style.opacity    = '1';
+    nameEl.classList.add('is-inflating');
+
     setTimeout(function () {
-      nameEl.style.transition = 'opacity 0.5s ease-in';
-      nameEl.style.opacity    = '1';
-    }, 1500);
+      // ── Pop ──
+      nameEl.classList.remove('is-inflating');
+      nameEl.style.transition = 'none';
+      nameEl.style.transform  = 'none';
+      nameEl.style.opacity    = '0';
 
-    for (var i = 0; i < COUNT; i++) spawnParticle(ox, oy);
+      // Fire confetti from the name's centre
+      var rect = nameEl.getBoundingClientRect();
+      var ox = rect.left + rect.width  / 2;
+      var oy = rect.top  + rect.height / 2;
+      for (var i = 0; i < COUNT; i++) spawnParticle(ox, oy);
+
+      // Reappear and unlock
+      setTimeout(function () {
+        nameEl.style.transition = 'opacity 0.5s ease-in';
+        nameEl.style.opacity    = '1';
+        isBusy = false;
+      }, 1500);
+
+    }, INFLATE_DURATION);
   }
 
   function spawnParticle(ox, oy) {

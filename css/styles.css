@@ -59,18 +59,44 @@ body {
 /* ─── "Happy" and "Birthday" lines ──────────────────────── */
 .line--happy {
   font-size: clamp(2rem, 10vw, 6rem);
-  color: #8720C5;
+  color: #B1B3F2;
 }
 
 .line--birthday {
   font-size: clamp(2rem, 10vw, 6rem);
-  color: #5700CB;
+  color: #FD6BB5;
 }
 
 /* ─── Name line ──────────────────────────────────────────── */
 .line--name {
   font-size: clamp(3rem, 16vw, 10rem);
   color: #00B0CB;
+}
+
+/* ─── Balloon inflate animation ─────────────────────────── */
+/*
+ * Five push-and-stutter cycles, each reaching a new peak.
+ * Encoded in keyframes so the stutter is frame-accurate
+ * regardless of easing. Ends at max size right before the pop.
+ */
+@keyframes balloon-inflate {
+  0%   { transform: scale(1.00); }
+  10%  { transform: scale(1.07); }
+  18%  { transform: scale(1.04); }
+  30%  { transform: scale(1.12); }
+  38%  { transform: scale(1.09); }
+  50%  { transform: scale(1.17); }
+  58%  { transform: scale(1.13); }
+  70%  { transform: scale(1.22); }
+  78%  { transform: scale(1.18); }
+  88%  { transform: scale(1.26); }
+  94%  { transform: scale(1.23); }
+  100% { transform: scale(1.27); }
+}
+
+.line--name.is-inflating {
+  animation: balloon-inflate 0.8s linear forwards;
+  transform-origin: center center;
 }
 
 /* ─── Confetti particles ─────────────────────────────────── */
