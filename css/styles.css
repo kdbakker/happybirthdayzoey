@@ -21,7 +21,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(to bottom, #ff6eb4 0%, #5500cc 100%);
+  background: linear-gradient(135deg, #ff6eb4 0%, #5500cc 100%);
   font-family: 'Fredoka One', 'Arial Rounded MT Bold', sans-serif;
   overflow: hidden;
 }
@@ -57,14 +57,27 @@ body {
 }
 
 /* ─── "Happy" and "Birthday" lines ──────────────────────── */
-.line--happy,
+.line--happy {
+  font-size: clamp(2rem, 10vw, 6rem);
+  color: #8720C5;
+}
+
 .line--birthday {
   font-size: clamp(2rem, 10vw, 6rem);
-  color: #ffe033;
+  color: #5700CB;
 }
 
 /* ─── Name line ──────────────────────────────────────────── */
 .line--name {
   font-size: clamp(3rem, 16vw, 10rem);
-  color: #ff6ec7;
+  color: #00B0CB;
+}
+
+/* ─── Confetti particles ─────────────────────────────────── */
+.confetti-particle {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 2px;
+  z-index: 9999;
+  will-change: transform, opacity;
 }
