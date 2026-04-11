@@ -13,10 +13,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Deep orange base with a soft spotlight glow behind the text */
-  background-color: #7a2800;
-  background-image: radial-gradient(ellipse 80% 60% at 50% 50%, #d94f00 0%, #7a2800 100%);
-  font-family: 'Arial Black', 'Impact', 'Haettenschweiler', sans-serif;
+  /* Pink-to-purple vertical gradient */
+  background: linear-gradient(to bottom, #ff6eb4 0%, #5500cc 100%);
+  /* Fredoka One: chunky rounded balloon-style display font */
+  font-family: 'Fredoka One', 'Arial Rounded MT Bold', sans-serif;
   overflow: hidden;
 }
 
@@ -37,38 +37,41 @@ body {
   display: block;
   line-height: 1;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   user-select: none;
   cursor: default;
 }
 
-/* ─── "Happy Birthday" line ──────────────────────────────── */
+/* ─── "Happy" and "Birthday" lines ──────────────────────── */
 /*
- * 3D effect via stacked text-shadow: each step shifts 1px right/down
- * in a progressively darker gold, then a final blurred ambient shadow.
+ * Balloon effect: bright yellow fill, white highlight shadow at
+ * top-left, then stacked gold layers for 3D depth.
  */
-.line--happy-birthday {
-  font-size: clamp(1.8rem, 9vw, 5.5rem);
+.line--happy,
+.line--birthday {
+  font-size: clamp(2rem, 10vw, 6rem);
   color: #ffe033;
   text-shadow:
+    -1px -1px 0 rgba(255, 255, 255, 0.35),
     1px 1px 0 #c9a800,
-    2px 2px 0 #c4a200,
+    2px 2px 0 #c2a000,
     3px 3px 0 #b89600,
     4px 4px 0 #ad8a00,
-    5px 5px 0 #a07c00,
-    6px 6px 0 #8f6c00,
-    7px 7px 16px rgba(0, 0, 0, 0.55);
+    5px 5px 0 #9e7c00,
+    6px 6px 0 #8c6c00,
+    7px 7px 18px rgba(0, 0, 0, 0.45);
 }
 
 /* ─── Name line ──────────────────────────────────────────── */
 /*
- * Larger than "Happy Birthday" so the personalised name is the visual
- * centrepiece. Same layered shadow technique in hot-pink / deep magenta.
+ * Larger than the greeting lines — the name is the centrepiece.
+ * White fill with a pink highlight and deep magenta 3D shadow.
  */
 .line--name {
-  font-size: clamp(3.5rem, 18vw, 11rem);
-  color: #ff6ec7;
+  font-size: clamp(3rem, 16vw, 10rem);
+  color: #ffffff;
   text-shadow:
+    -1px -1px 0 rgba(255, 220, 240, 0.6),
     1px 1px 0 #cc0090,
     2px 2px 0 #c4008a,
     3px 3px 0 #b80080,
@@ -76,5 +79,5 @@ body {
     5px 5px 0 #9a0066,
     6px 6px 0 #880058,
     7px 7px 0 #760049,
-    8px 8px 20px rgba(0, 0, 0, 0.55);
+    8px 8px 22px rgba(0, 0, 0, 0.45);
 }
