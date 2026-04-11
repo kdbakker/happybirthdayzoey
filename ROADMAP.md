@@ -13,7 +13,7 @@ What we're building toward right now: a deployable page that shows styled 3D "Ha
 
 - 🟡 Stage 1 — HTML skeleton: `index.html` with "Happy Birthday [NAME]" as static placeholder text, linked to empty `css/styles.css` and `js/main.js`
 - 🟡 Stage 2 — 3D text styling: CSS `text-shadow` layering and/or `transform: perspective()` to give the text a convincing 3D look; full-screen centred layout, mobile-first
-- 🔴 Stage 3 — URL param personalisation: `js/main.js` reads `?name=` from the URL and writes it into the page; falls back to "Friend" if absent
+- 🟡 Stage 3 — URL param personalisation: `js/main.js` reads `?name=` from the URL and writes it into the page; falls back to "Friend" if absent
 - 🔴 Stage 4 — Spin animation: clicking the text triggers a CSS keyframe spin; JS adds/removes a class to drive it
 
 ---
