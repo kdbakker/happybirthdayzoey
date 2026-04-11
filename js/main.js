@@ -23,7 +23,7 @@
   // Click sequence:
   //   1. Name inflates with smooth-then-stutter animation (900ms)
   //   2. Pop: name vanishes instantly, confetti bursts out
-  //   3. "Let's eat cake!" fades in (300ms)
+  //   3. Wait 500ms, then "Let's eat cake!" fades in (300ms)
   //   4. Held for 3 000ms
   //   5. Cake message fades out + name fades back in (500ms, simultaneous)
   //   6. Unlock — ready for next click
@@ -32,6 +32,7 @@
   var COUNT            = 200;
   var GRAVITY          = 620;   // px/s²
   var INFLATE_MS       = 900;   // must match CSS animation duration
+  var CAKE_DELAY_MS    = 500;
   var CAKE_FADEIN_MS   = 300;
   var CAKE_HOLD_MS     = 3000;
   var CAKE_FADEOUT_MS  = 500;
@@ -63,24 +64,26 @@
       var oy = rect.top  + rect.height / 2;
       for (var i = 0; i < COUNT; i++) spawnParticle(ox, oy);
 
-      // ── Fade in cake message ──
-      cakeEl.style.transition = 'opacity ' + CAKE_FADEIN_MS + 'ms ease-in';
-      cakeEl.style.opacity    = '1';
-
-      // ── After hold: fade out cake, fade in name simultaneously ──
+      // ── Fade in cake message (after short delay) ──
       setTimeout(function () {
-        cakeEl.style.transition = 'opacity ' + CAKE_FADEOUT_MS + 'ms ease-out';
-        cakeEl.style.opacity    = '0';
+        cakeEl.style.transition = 'opacity ' + CAKE_FADEIN_MS + 'ms ease-in';
+        cakeEl.style.opacity    = '1';
 
-        nameEl.style.transition = 'opacity ' + NAME_FADEIN_MS + 'ms ease-in';
-        nameEl.style.opacity    = '1';
-
-        // Unlock once name is fully back
+        // ── After hold: fade out cake, fade in name simultaneously ──
         setTimeout(function () {
-          isBusy = false;
-        }, NAME_FADEIN_MS);
+          cakeEl.style.transition = 'opacity ' + CAKE_FADEOUT_MS + 'ms ease-out';
+          cakeEl.style.opacity    = '0';
 
-      }, CAKE_FADEIN_MS + CAKE_HOLD_MS);
+          nameEl.style.transition = 'opacity ' + NAME_FADEIN_MS + 'ms ease-in';
+          nameEl.style.opacity    = '1';
+
+          // Unlock once name is fully back
+          setTimeout(function () {
+            isBusy = false;
+          }, NAME_FADEIN_MS);
+
+        }, CAKE_FADEIN_MS + CAKE_HOLD_MS);
+      }, CAKE_DELAY_MS);
 
     }, INFLATE_MS);
   }
