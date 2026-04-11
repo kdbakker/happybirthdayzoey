@@ -19,11 +19,11 @@
 
 
   // ── Confetti burst on click ────────────────────────────────
-  // Particles explode from the centre of the name element,
-  // fly outward with a slight upward bias, then fall with gravity.
+  // The name element fades out on click (as if it exploded into
+  // the confetti), then fades back in once the particles settle.
 
   var COLORS      = ['#8720C5', '#5700CB', '#00B0CB', '#ff6eb4', '#ffe033', '#ffffff', '#ff6ec7'];
-  var COUNT       = 80;
+  var COUNT       = 200;
   var GRAVITY     = 620;  // px/s²
   var COOLDOWN_MS = 350;
   var lastBurst   = 0;
@@ -37,6 +37,14 @@
     var rect = nameEl.getBoundingClientRect();
     var ox = rect.left + rect.width  / 2;
     var oy = rect.top  + rect.height / 2;
+
+    // Name explodes out — fade quickly, reappear after confetti settles
+    nameEl.style.transition = 'opacity 0.12s ease-out';
+    nameEl.style.opacity    = '0';
+    setTimeout(function () {
+      nameEl.style.transition = 'opacity 0.5s ease-in';
+      nameEl.style.opacity    = '1';
+    }, 1500);
 
     for (var i = 0; i < COUNT; i++) spawnParticle(ox, oy);
   }
@@ -56,12 +64,12 @@
     document.body.appendChild(el);
 
     var angle = Math.random() * Math.PI * 2;
-    var speed = Math.random() * 380 + 120;
+    var speed = Math.random() * 500 + 150;
     var vx0   = Math.cos(angle) * speed;
-    var vy0   = Math.sin(angle) * speed - 200;
+    var vy0   = Math.sin(angle) * speed - 220;
     var rot0  = Math.random() * 360;
-    var rotV  = (Math.random() - 0.5) * 800;
-    var life  = Math.random() * 600 + 700;
+    var rotV  = (Math.random() - 0.5) * 900;
+    var life  = Math.random() * 700 + 800;
     var t0    = null;
 
     function frame(ts) {
