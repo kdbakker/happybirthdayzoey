@@ -13,9 +13,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Deep purple base with a soft spotlight glow behind the text */
-  background-color: #0e0028;
-  background-image: radial-gradient(ellipse 80% 60% at 50% 50%, #2a0060 0%, #0e0028 100%);
+  /* Deep orange base with a soft spotlight glow behind the text */
+  background-color: #7a2800;
+  background-image: radial-gradient(ellipse 80% 60% at 50% 50%, #d94f00 0%, #7a2800 100%);
   font-family: 'Arial Black', 'Impact', 'Haettenschweiler', sans-serif;
   overflow: hidden;
 }
