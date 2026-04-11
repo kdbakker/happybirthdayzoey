@@ -9,6 +9,75 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <!--
+      SVG filter definitions (visually hidden).
+      The balloon-3d filter combines:
+        1. feSpecularLighting  — glossy highlight from a top-left point light
+        2. feOffset layers     — stacked dark copies for 3D extrusion depth
+        3. manual drop shadow  — soft shadow behind the letters
+    -->
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" class="filter-defs">
+      <defs>
+        <filter id="balloon-3d" x="-10%" y="-10%" width="135%" height="155%"
+                color-interpolation-filters="sRGB">
+
+          <!-- Build a smooth height map from the text outline (simulates inflation) -->
+          <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="heightMap"/>
+
+          <!-- Specular highlight: bright gloss where the surface faces the light -->
+          <feSpecularLighting in="heightMap" surfaceScale="10" specularConstant="2.2"
+                              specularExponent="40" lighting-color="#ffffff" result="specular">
+            <fePointLight x="-200" y="-250" z="350"/>
+          </feSpecularLighting>
+          <!-- Clip gloss to letter bounds only -->
+          <feComposite in="specular" in2="SourceAlpha" operator="in" result="gloss"/>
+
+          <!-- Blend gloss onto the source colour (screen = brighten) -->
+          <feBlend in="SourceGraphic" in2="gloss" mode="screen" result="glossyFront"/>
+
+          <!-- Extrusion: progressively darker shifted copies of the letter -->
+          <feOffset in="SourceGraphic" dx="2"  dy="2"  result="s1"/>
+          <feOffset in="SourceGraphic" dx="4"  dy="4"  result="s2"/>
+          <feOffset in="SourceGraphic" dx="6"  dy="6"  result="s3"/>
+          <feOffset in="SourceGraphic" dx="8"  dy="8"  result="s4"/>
+          <feOffset in="SourceGraphic" dx="10" dy="10" result="s5"/>
+          <feOffset in="SourceGraphic" dx="12" dy="12" result="s6"/>
+
+          <feColorMatrix in="s1" type="matrix"
+            values="0.65 0 0 0 0  0 0.65 0 0 0  0 0 0.65 0 0  0 0 0 1 0" result="d1"/>
+          <feColorMatrix in="s2" type="matrix"
+            values="0.55 0 0 0 0  0 0.55 0 0 0  0 0 0.55 0 0  0 0 0 1 0" result="d2"/>
+          <feColorMatrix in="s3" type="matrix"
+            values="0.45 0 0 0 0  0 0.45 0 0 0  0 0 0.45 0 0  0 0 0 1 0" result="d3"/>
+          <feColorMatrix in="s4" type="matrix"
+            values="0.36 0 0 0 0  0 0.36 0 0 0  0 0 0.36 0 0  0 0 0 1 0" result="d4"/>
+          <feColorMatrix in="s5" type="matrix"
+            values="0.28 0 0 0 0  0 0.28 0 0 0  0 0 0.28 0 0  0 0 0 1 0" result="d5"/>
+          <feColorMatrix in="s6" type="matrix"
+            values="0.20 0 0 0 0  0 0.20 0 0 0  0 0 0.20 0 0  0 0 0 1 0" result="d6"/>
+
+          <!-- Soft drop shadow beneath the whole letter stack -->
+          <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="shadowBlur"/>
+          <feOffset in="shadowBlur" dx="8" dy="14" result="shadowPos"/>
+          <feFlood flood-color="#000000" flood-opacity="0.35" result="shadowColor"/>
+          <feComposite in="shadowColor" in2="shadowPos" operator="in" result="dropShadow"/>
+
+          <!-- Merge back-to-front: shadow → darkest extrusion → front face -->
+          <feMerge>
+            <feMergeNode in="dropShadow"/>
+            <feMergeNode in="d6"/>
+            <feMergeNode in="d5"/>
+            <feMergeNode in="d4"/>
+            <feMergeNode in="d3"/>
+            <feMergeNode in="d2"/>
+            <feMergeNode in="d1"/>
+            <feMergeNode in="glossyFront"/>
+          </feMerge>
+
+        </filter>
+      </defs>
+    </svg>
+
     <main class="card">
       <div class="message" id="message">
         <span class="line line--happy">Happy</span>

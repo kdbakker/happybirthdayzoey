@@ -7,15 +7,21 @@
   padding: 0;
 }
 
+/* ─── SVG filter container (hidden) ─────────────────────── */
+.filter-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 /* ─── Layout ─────────────────────────────────────────────── */
 body {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Pink-to-purple vertical gradient */
   background: linear-gradient(to bottom, #ff6eb4 0%, #5500cc 100%);
-  /* Fredoka One: chunky rounded balloon-style display font */
   font-family: 'Fredoka One', 'Arial Rounded MT Bold', sans-serif;
   overflow: hidden;
 }
@@ -30,9 +36,16 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.05em;
+  /* Extra gap so the filter-extended bounds don't overlap between lines */
+  gap: 0.35em;
 }
 
+/* ─── All text lines ─────────────────────────────────────── */
+/*
+ * The balloon-3d SVG filter handles all depth and gloss.
+ * Text colour here feeds into SourceGraphic — extrusion layers
+ * are derived as progressively darker shades of the same hue.
+ */
 .line {
   display: block;
   line-height: 1;
@@ -40,44 +53,18 @@ body {
   letter-spacing: 0.04em;
   user-select: none;
   cursor: default;
+  filter: url(#balloon-3d);
 }
 
 /* ─── "Happy" and "Birthday" lines ──────────────────────── */
-/*
- * Balloon effect: bright yellow fill, white highlight shadow at
- * top-left, then stacked gold layers for 3D depth.
- */
 .line--happy,
 .line--birthday {
   font-size: clamp(2rem, 10vw, 6rem);
   color: #ffe033;
-  text-shadow:
-    -1px -1px 0 rgba(255, 255, 255, 0.35),
-    1px 1px 0 #c9a800,
-    2px 2px 0 #c2a000,
-    3px 3px 0 #b89600,
-    4px 4px 0 #ad8a00,
-    5px 5px 0 #9e7c00,
-    6px 6px 0 #8c6c00,
-    7px 7px 18px rgba(0, 0, 0, 0.45);
 }
 
 /* ─── Name line ──────────────────────────────────────────── */
-/*
- * Larger than the greeting lines — the name is the centrepiece.
- * White fill with a pink highlight and deep magenta 3D shadow.
- */
 .line--name {
   font-size: clamp(3rem, 16vw, 10rem);
-  color: #ffffff;
-  text-shadow:
-    -1px -1px 0 rgba(255, 220, 240, 0.6),
-    1px 1px 0 #cc0090,
-    2px 2px 0 #c4008a,
-    3px 3px 0 #b80080,
-    4px 4px 0 #aa0074,
-    5px 5px 0 #9a0066,
-    6px 6px 0 #880058,
-    7px 7px 0 #760049,
-    8px 8px 22px rgba(0, 0, 0, 0.45);
+  color: #ff6ec7;
 }
